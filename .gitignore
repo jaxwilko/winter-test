@@ -1,0 +1,4 @@
+/.idea
+/.docker/logs
+/.docker/Dockerfile
+/dist
