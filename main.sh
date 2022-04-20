@@ -121,7 +121,7 @@ suppress_run docker-compose run --user www-data web ./artisan winter:env
 
 say "Setting .env file..."
 cat > ./dist/.env <<EnvFile
-APP_DEBUG=false
+APP_DEBUG=true
 APP_URL=http://winter.text/
 APP_KEY=
 APP_ENV=testing
