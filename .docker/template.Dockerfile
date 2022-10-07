@@ -13,6 +13,18 @@ RUN chmod +x /usr/local/bin/install-php-extensions && \
 # install composer from composer image
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
+# install node & deps
+RUN apt-get install -y curl \
+  && curl -sL https://deb.nodesource.com/setup_17.x | bash - \
+  && apt-get install -y nodejs \
+  && curl -L https://www.npmjs.com/install.sh | sh
+
 # set www-data permissions to match default user
-RUN usermod -u 1000 www-data
-RUN usermod -aG staff www-data
+RUN usermod -u 1000 www-data \
+    && usermod -aG staff www-data
+
+# set www-data home
+RUN mkdir -p /home/www-data \
+    && chown -R www-data:www-data /home/www-data \
+    && usermod -d /home/www-data www-data
+
