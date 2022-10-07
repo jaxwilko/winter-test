@@ -23,7 +23,7 @@ suppress_run() {
         error "Command ${COMMAND} failed, exiting..."
         if $DOCKER_RUNNING; then
             error "Shutting down docker..."
-            suppress_run docker-compose down -v
+            suppress_run docker compose down -v
         fi
         exit 1
     fi
@@ -111,13 +111,16 @@ sed -i "s/\%PHP_VERSION\%/${PHP_VERSION}/g" "./.docker/Dockerfile"
 
 DOCKER_RUNNING=true
 say "Booting docker..."
-suppress_run docker-compose up -d
+suppress_run docker compose up -d
 
 say "Composer install..."
-suppress_run docker-compose run --user www-data web composer install --no-interaction
+suppress_run docker compose run --user www-data web composer install --no-interaction
+
+say "NPM install..."
+suppress_run docker compose run --user www-data web npm i
 
 say "Run winter:env..."
-suppress_run docker-compose run --user www-data web ./artisan winter:env
+suppress_run docker compose run --user www-data web ./artisan winter:env
 
 say "Setting .env file..."
 cat > ./dist/.env <<EnvFile
@@ -137,10 +140,10 @@ DB_USE_CONFIG_FOR_TESTING=true
 EnvFile
 
 say "Run winter:up..."
-suppress_run docker-compose run --user www-data web ./artisan winter:up
+suppress_run docker compose run --user www-data web ./artisan winter:up
 
 say "Running tests..."
-docker-compose run --user www-data web ./vendor/bin/phpunit
+docker compose run --user www-data web ./artisan winter:test
 
 say "Killing docker..."
-suppress_run docker-compose down -v
+suppress_run docker compose down -v
