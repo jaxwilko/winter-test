@@ -38,16 +38,18 @@ usage() {
     -b [branch]       specify a branch to test
 
     Supported PHP Versions:
+    8.3
+    8.2 [default]
     8.1
-    8.0 [default]
+    8.0
     7.4
 NOTICE
 }
 
 VERBOSE=false
 DOCKER_RUNNING=false
-PHP_VERSION="8.0"
-PHP_VERSIONS="8.1 8.0 7.4"
+PHP_VERSION="8.2"
+PHP_VERSIONS="8.3 8.2 8.1 8.0 7.4"
 BRANCH=""
 
 while getopts hvp:b: opts; do
