@@ -111,7 +111,7 @@ sed -i "s/\%PHP_VERSION\%/${PHP_VERSION}/g" "./.docker/Dockerfile"
 
 DOCKER_RUNNING=true
 say "Booting docker..."
-suppress_run docker compose up -d
+suppress_run docker compose up -d --build
 
 say "Composer install..."
 suppress_run docker compose run --user www-data web composer install --no-interaction
